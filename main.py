@@ -3,6 +3,7 @@ from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST
 """Master mind game, constant variables are located in the file "constants.py" 
 the function "Gameloop" starts the game """
 
+
 def MasterCode(COLORLST):
     """generates the code that the user needs to guess"""
     master = []
@@ -27,6 +28,7 @@ def BlackCheck(code, guesslst):
     else:
         return f"amount of black dots: {black_dots}"
 
+
 def WhiteCheck(mastercopy, guesslst, black_dots):
     """the check for the white pins, checks if there are pins in the code that are not in the right spot,
      and returns the amount of the incorrect pins"""
@@ -47,7 +49,7 @@ def GameLoop():
     tries = 0
     stop = False
     while tries < AMOUNT_OF_TRIES or stop == True:
-        guesslst = list(map(str, input("make a guess: ").strip().split(',')))[:AMOUNT_TO_GUESS]
+        guesslst = list(map(str, input("make a guess: ").upper().strip().split(',')))[:AMOUNT_TO_GUESS]
         print(guesslst)
         tries += 1
         print(BlackCheck(code,guesslst))
