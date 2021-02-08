@@ -1,0 +1,3 @@
+AMOUNT_OF_TRIES = 10
+AMOUNT_TO_GUESS = 4
+COLORLST = ["R", "G", "B", "C", "M", "Y"]
