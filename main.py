@@ -1,6 +1,6 @@
 import random
 from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST
-"""Master mind game, constant variables are located in the file "constants.py" 
+"""Master mind game. constant variables are located in the file "constants.py" 
 the function "Gameloop" starts the game """
 
 
@@ -22,11 +22,8 @@ def BlackCheck(code, guesslst):
     for i in range(0, len(guesslst)):
         if guesslst[i] == mastercopy[i]:
             black_dots += 1
-    WhiteCheck(mastercopy, guesslst, black_dots)
-    if black_dots == 4:
-        return "you won the game!!"''
-    else:
-        return f"amount of black dots: {black_dots}"
+    white_dots = WhiteCheck(mastercopy, guesslst, black_dots)
+    return black_dots, white_dots
 
 
 def WhiteCheck(mastercopy, guesslst, black_dots):
@@ -37,7 +34,7 @@ def WhiteCheck(mastercopy, guesslst, black_dots):
         if guesslst[i] in mastercopy:
             mastercopy.remove(guesslst[i])
             white_dots += 1
-    return print(f"amount of white dots: {white_dots - black_dots}")
+    return white_dots
 
 
 def GameLoop():
@@ -52,8 +49,12 @@ def GameLoop():
         guesslst = list(map(str, input("make a guess: ").upper().strip().split(',')))[:AMOUNT_TO_GUESS]
         print(guesslst)
         tries += 1
-        print(BlackCheck(code,guesslst))
-        print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
-
+        black, white = BlackCheck(code, guesslst)
+        if black == 4:
+            return print("you won the game!!")
+        else:
+            print(f"amount of black dots: {black}")
+            print(f"amount of white dots: {white - black}")
+            print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
 
 GameLoop()
