@@ -1,3 +1,5 @@
 AMOUNT_OF_TRIES = 10
 AMOUNT_TO_GUESS = 4
-COLORLST = ["R", "G", "B", "C", "M", "Y"]
+AMOUNT_COLORS = 6 #max 10
+LST = ["R", "G", "B", "C", "M", "Y", "W", "P", "O", "S"]
+COLORLST = LST[:AMOUNT_COLORS]
