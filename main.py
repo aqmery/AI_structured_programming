@@ -1,5 +1,7 @@
 import random
 from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST
+
+
 """Master mind game. constant variables are located in the file "constants.py" 
 the function "Gameloop" starts the game """
 
@@ -10,15 +12,15 @@ def masterCode(COLORLST):
     for i in range(0, AMOUNT_TO_GUESS):
         r = random.choice(COLORLST)
         master.append(r)
-    print(master)
+    print(f"master code: {master}")
     return master
 
 
 def blackCheck(code, guesslst):
     """checks if there are any guesses in the right place (making them black pins)
      and also calls the check for the white pins"""
-    print(code)
-    print(guesslst)
+    #print(f"master code : {code}")
+    #print(f"the guess for the master code: {guesslst}")
     mastercopy = code.copy()
     black_dots = 0
     for i in range(0, len(guesslst)):
@@ -61,26 +63,102 @@ def gameLoop():
             print(f"amount of white dots: {white}")
             print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
 
-def computer():
+
+
+def guessing1():
     code = masterCode(COLORLST)
-    tries = 0
-    stop = False
-    black, white = blackCheck(code, ['R', 'R', 'B', 'C'])
-    while tries < AMOUNT_OF_TRIES or stop == True:
+    all_codes = codegen()
+
+    guess = list(random.choice(COLORLST) for _ in range(4))
+    possible_codes = requestfeedback1(guess, code, all_codes)
+    print(f"possible codes : {possible_codes}")
+    print(f"the first guess: {guess}")
+    amount = 0
+    while guess != code:
+        guess = list(random.choice(possible_codes))
+        requestfeedback1(guess, code, all_codes)
+        print(f"the second guess is: {guess}")
+        amount += 1
+        print(amount)
+
+
+
+def requestfeedback1(guess, code, all_codes):
+    feedback = blackCheck(guess, code)
+    print(f"feedback = {feedback}")
+    possible_codes = []
+    for i in all_codes:
+        if feedback == blackCheck(i, code):
+            possible_codes.append(i)
+
+    print(f"possible codes that could still be the master code: {possible_codes}")
+    print(len(possible_codes))
+    return possible_codes
+
+
+def computergameloop():
+    all_codes = codegen()
+    code = masterCode(COLORLST)
+    for x in range(10):
+        guess = random.choice(all_codes)
+        feedback = blackCheck(code, guess)
+        print(f"guess is : {guess}")
+        print(feedback)
+        all_codes = bot(all_codes, feedback, guess)
+        print(len(all_codes))
+        if guess == code:
+            print(' win')
+            exit()
+
+
+def bot(all_codes, feedback, guess):
+    nieuwe_all_codes = []
+    for i in all_codes:
+        if feedback == blackCheck(guess, i):
+            nieuwe_all_codes.append(i)
+    return nieuwe_all_codes
+
+
+def codegen():
+    """generates a list of possible codes from the existing colors,
+    currently only works for a max of 4 different colors"""
+    generatedCodes = []
+    for index1 in COLORLST:
+        for index2 in COLORLST:
+            for index3 in COLORLST:
+                for index4 in COLORLST:
+                    generatedCodes.append([index1,index2, index3, index4])
+    return(generatedCodes)
+
+
+
+computergameloop()
+
+#guessing()
 
 
 
 
-        if black == 4:
-            return print("you won the game!!")
-        else:
-            tries += 1
-            print(f"amount of black dots: {black}")
-            print(f"amount of white dots: {white}")
-            print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
 
 
-#print(computer())
+
+
+
+
+
+
+
+def codegen1():
+    generatedCodes = []
+    loops = 0
+    while loops < AMOUNT_TO_GUESS:
+        for i in COLORLST:
+            generatedCodes.append(i)
+        loops += 1
+    return generatedCodes
+
+
+
 
 def toString(List):
     return ''.join(List)
@@ -104,5 +182,4 @@ def codes1(string):
     codes(string, data, lenght-1, 0)
 
 
-print(codes1(toString(COLORLST)))
 
