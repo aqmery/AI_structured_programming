@@ -43,7 +43,7 @@ def whiteCheck(mastercopy, guesslst):
 
 
 
-def gameLoop():
+def gameloop():
     """starts the game and keeps it going until the code is guessed or the tries run out.
     https://www.tutorialspoint.com/python-get-a-list-as-input-from-user this discribes the:
     list(map(str, input("make a guess: ").strip().split(',')))[:AMOUNT_TO_GUESS] function.
@@ -72,10 +72,10 @@ def computergameloop():
         feedback = blackCheck(code, guess)
         print(f"guess is : {guess}")
         print(feedback)
-        all_codes = worstcase_strategy(all_codes, feedback, guess)
+        all_codes = simple_strategy(all_codes, feedback, guess)
         print(len(all_codes))
         if guess == code:
-            print(' win')
+            print("You won!!")
             exit()
 
 
@@ -88,9 +88,10 @@ def simple_strategy(all_codes, feedback, guess):
 
 
 
-def worstcase_strategy(all_codes, feedback, guess):
-    all_answers = all_codes.copy()
-    for i in all_codes:
+# def worstcase_strategy(all_codes, feedback, guess):
+#     all_answers = all_codes.copy()
+#     for i in all_codes:
+#         for j in all_answers
 
 
 
@@ -122,52 +123,4 @@ def codegen():
 
 
 
-computergameloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-def codegen1():
-    generatedCodes = []
-    loops = 0
-    while loops < AMOUNT_TO_GUESS:
-        for i in COLORLST:
-            generatedCodes.append(i)
-        loops += 1
-    return generatedCodes
-
-
-
-
-def toString(List):
-    return ''.join(List)
-
-
-
-
-def codes(string, data, last, index):
-    lenght = len(string)
-    for i in range(lenght):
-        data[index] = string[i]
-        if index == last:
-            print(toString(data))
-        else:
-            codes(string, data, last, index+1)
-
-def codes1(string):
-    lenght = len(string)
-    data = [""] * (lenght+1)
-    string = sorted(string)
-    codes(string, data, lenght-1, 0)
-
-
-
+gameloop()
