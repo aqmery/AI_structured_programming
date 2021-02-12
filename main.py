@@ -64,59 +64,49 @@ def gameLoop():
             print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
 
 
-
-def guessing1():
-    code = masterCode(COLORLST)
-    all_codes = codegen()
-
-    guess = list(random.choice(COLORLST) for _ in range(4))
-    possible_codes = requestfeedback1(guess, code, all_codes)
-    print(f"possible codes : {possible_codes}")
-    print(f"the first guess: {guess}")
-    amount = 0
-    while guess != code:
-        guess = list(random.choice(possible_codes))
-        requestfeedback1(guess, code, all_codes)
-        print(f"the second guess is: {guess}")
-        amount += 1
-        print(amount)
-
-
-
-def requestfeedback1(guess, code, all_codes):
-    feedback = blackCheck(guess, code)
-    print(f"feedback = {feedback}")
-    possible_codes = []
-    for i in all_codes:
-        if feedback == blackCheck(i, code):
-            possible_codes.append(i)
-
-    print(f"possible codes that could still be the master code: {possible_codes}")
-    print(len(possible_codes))
-    return possible_codes
-
-
 def computergameloop():
     all_codes = codegen()
     code = masterCode(COLORLST)
-    for x in range(10):
+    for i in range(AMOUNT_OF_TRIES):
         guess = random.choice(all_codes)
         feedback = blackCheck(code, guess)
         print(f"guess is : {guess}")
         print(feedback)
-        all_codes = bot(all_codes, feedback, guess)
+        all_codes = worstcase_strategy(all_codes, feedback, guess)
         print(len(all_codes))
         if guess == code:
             print(' win')
             exit()
 
 
-def bot(all_codes, feedback, guess):
-    nieuwe_all_codes = []
+def simple_strategy(all_codes, feedback, guess):
+    possible_codes = []
     for i in all_codes:
         if feedback == blackCheck(guess, i):
-            nieuwe_all_codes.append(i)
-    return nieuwe_all_codes
+            possible_codes.append(i)
+    return possible_codes
+
+
+
+def worstcase_strategy(all_codes, feedback, guess):
+    all_answers = all_codes.copy()
+    for i in all_codes:
+
+
+
+
+
+
+
+#def 1worstcase_strategy(all_codes, feedback, guess):
+    """als je een code raad, hoeveel geven dit antwoord
+    bvb AABB geeft max 256
+    je loopt eerst door alle vragen heen, (all possible codes)
+    voor elke vraag kijk je naar elke mogelijke code sla op hoevaak je elke feedback krijgt
+    binnen de vraag onthoudt de worst cases
+    binnen een vraag kijk naar het hoogste getal binnen de feedback, dat is de worst worst case, sla alle worst case op, en kies de beste uit de worst case scenarios"""
+
+
 
 
 def codegen():
@@ -133,8 +123,6 @@ def codegen():
 
 
 computergameloop()
-
-#guessing()
 
 
 
