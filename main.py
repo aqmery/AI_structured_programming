@@ -1,5 +1,6 @@
 import random
-from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST
+import itertools
+from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST, AMOUNT_COLORS
 
 
 """Master mind game. constant variables are located in the file "constants.py" 
@@ -40,7 +41,6 @@ def whiteCheck(mastercopy, guesslst):
             mastercopy.remove(guesslst[i])
             white_dots += 1
     return white_dots
-
 
 
 def gameloop():
@@ -87,19 +87,36 @@ def simple_strategy(all_codes, feedback, guess):
     return possible_codes
 
 
+def computergameloop1():
+        all_codes = codegen()
+        print(f"all codes {all_codes}")
+        code = masterCode(COLORLST)
+        inital_guess = ["R","R","B","B"]
+        for i in range(AMOUNT_OF_TRIES):
+            guess = random.choice(all_codes)
+            feedback = blackCheck(code, guess)
+            print(f"guess is : {guess}")
+            print(feedback)
+            all_codes = worstcase_strategy(all_codes, feedback, guess)
+            print(len(all_codes))
+            if guess == code:
+                print("You won!!")
+                exit()
 
-# def worstcase_strategy(all_codes, feedback, guess):
-#     all_answers = all_codes.copy()
-#     for i in all_codes:
-#         for j in all_answers
+
+def worstcase_strategy(all_codes, feedback, guess):
+    remaining_possible_codes = all_codes.copy()
+    possibilities = []
+    for i in range(5):
+        for j in range(0, AMOUNT_TO_GUESS - i + 1):
+            possibilities.append((i, j))
+    scores = possibilities[:len(possibilities) - 2] + possibilities[len(possibilities) - 1:]
+    print(scores)
 
 
 
-
-
-
-
-#def 1worstcase_strategy(all_codes, feedback, guess):
+def worstcase_strategy1(all_codes, feedback, guess):
+    # def 1worstcase_strategy(all_codes, feedback, guess):
     """als je een code raad, hoeveel geven dit antwoord
     bvb AABB geeft max 256
     je loopt eerst door alle vragen heen, (all possible codes)
@@ -109,18 +126,20 @@ def simple_strategy(all_codes, feedback, guess):
 
 
 
-
 def codegen():
-    """generates a list of possible codes from the existing colors,
-    currently only works for a max of 4 different colors"""
-    generatedCodes = []
-    for index1 in COLORLST:
-        for index2 in COLORLST:
-            for index3 in COLORLST:
-                for index4 in COLORLST:
-                    generatedCodes.append([index1,index2, index3, index4])
+    """generates a list of possible codes from the existing colors"""
+    generatedCodes = [list(i) for i in list(itertools.product((COLORLST), repeat=AMOUNT_TO_GUESS))]
     return(generatedCodes)
 
 
 
-gameloop()
+
+# all_codes = codegen()
+# possibilities = []
+# for i in range(5):
+#     for j in range(0, AMOUNT_TO_GUESS-i+1):
+#         possibilities.append((i, j))
+# scores = possibilities[:len(possibilities)-2]+possibilities[len(possibilities)-1:]
+# print(scores)
+
+computergameloop1()
