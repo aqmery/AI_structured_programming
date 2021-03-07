@@ -83,7 +83,7 @@ def computergameloop_simple():
         print(f"guess is : {guess}")
         print(feedback)
         all_codes = simple_strategy(all_codes, feedback, guess)
-        print(len(all_codes))
+        print(f"{len(all_codes)}\n")
         if guess == code:
             print("You won!!")
             exit()
@@ -139,6 +139,8 @@ def worstcase_strategy(all_codes):
 
 
 def computergameloop_own():
+    """a fairly simple strategy that just chooses the first item in the list of possible answers.
+    this works in a very similar way to the simple_strategy"""
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
@@ -147,11 +149,10 @@ def computergameloop_own():
         print(f"guess is : {guess}")
         print(feedback)
         all_codes = simple_strategy(all_codes, feedback, guess)
-        print(len(all_codes))
+        print(f"{len(all_codes)}\n")
         if guess == code:
             print("You won!!")
             exit()
-
 
 
 computergameloop_worstcase()
