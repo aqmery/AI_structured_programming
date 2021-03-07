@@ -1,20 +1,29 @@
 import random
 import itertools
-from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST, AMOUNT_COLORS
+from constants import AMOUNT_TO_GUESS, AMOUNT_OF_TRIES, COLORLST
 
 
-"""Master mind game. constant variables are located in the file "constants.py" 
-the function "Gameloop" starts the game """
+"""Mastermind game. constant variables are located in the file "constants.py"""
 
 
+"""base mastermind functions: masterCode, codegen, blackCheck, whiteCheck"""
 def masterCode(COLORLST):
-    """generates the code that the user needs to guess"""
+    """generates a code that needs to be guessed using the COLORLST and
+    AMOUNT_TO_GUESS variable from the constants file.
+    COLORLST are the different colors that can be used to generate a code.
+    AMOUNT_TO_GUESS is the amount of colors the user/AI needs to guess."""
     master = []
     for i in range(0, AMOUNT_TO_GUESS):
         r = random.choice(COLORLST)
         master.append(r)
     print(f"master code: {master}")
     return master
+
+
+def codegen():
+    """generates a list of all possible codes based on the colors in COLORLST"""
+    generatedCodes = [list(i) for i in list(itertools.product((COLORLST), repeat=AMOUNT_TO_GUESS))]
+    return(generatedCodes)
 
 
 def blackCheck(code, guesslst):
@@ -43,11 +52,12 @@ def whiteCheck(mastercopy, guesslst):
     return white_dots
 
 
+
 def gameloop():
     """starts the game and keeps it going until the code is guessed or the tries run out.
     https://www.tutorialspoint.com/python-get-a-list-as-input-from-user this discribes the:
-    list(map(str, input("make a guess: ").strip().split(',')))[:AMOUNT_TO_GUESS] function.
-    """
+    list(map(str, input("make a guess: ").strip().split(',')))[:AMOUNT_TO_GUESS] part of the code,
+    it makes a list out of the users input."""
     code = masterCode(COLORLST)
     tries = 0
     stop = False
@@ -65,6 +75,8 @@ def gameloop():
 
 
 def computergameloop_simple():
+    """starts the simple game loop.
+    the simple game loop uses the simple_strategy function to guess the master code."""
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
@@ -80,6 +92,7 @@ def computergameloop_simple():
 
 
 def simple_strategy(all_codes, feedback, guess):
+    """this loops trough all the codes and creates a new list with the codes that are still possible"""
     possible_codes = []
     for i in all_codes:
         if feedback == blackCheck(guess, i):
@@ -87,7 +100,11 @@ def simple_strategy(all_codes, feedback, guess):
     return possible_codes
 
 
+
 def computergameloop_worstcase():
+    """starts the worstcase gameloop
+    the worst case gameloop uses the worstcase_strategy function
+    it also uses the simple_strategy function to make the new list of possible codes"""
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
@@ -120,11 +137,12 @@ def worstcase_strategy(all_codes):
     return list(bestworstcase)
 
 
+
 def computergameloop_own():
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
-        guess = random.choice(all_codes)
+        guess = all_codes[0]
         feedback = blackCheck(code, guess)
         print(f"guess is : {guess}")
         print(feedback)
@@ -134,25 +152,16 @@ def computergameloop_own():
             print("You won!!")
             exit()
 
+
 def own_strategy(all_codes, feedback, guess):
     possible_codes = []
-
+    for i in all_codes:
+        if feedback == blackCheck(guess, i):
+            possible_codes.append(i)
     return possible_codes
 
 
 
 
 
-
-
-
-
-
-
-def codegen():
-    """generates a list of possible codes from the existing colors"""
-    generatedCodes = [list(i) for i in list(itertools.product((COLORLST), repeat=AMOUNT_TO_GUESS))]
-    return(generatedCodes)
-
-
-computergameloop_worstcase()
+computergameloop_own()
