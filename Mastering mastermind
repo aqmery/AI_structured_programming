@@ -1,0 +1,26 @@
+Mastering master mind
+Make a function that generates a random 4 number code out of 6 possible numbers
+Make a loop that let’s you play the game and guess 10 times for the correct code
+Make a check function that checks if items in the list are in the correct place, if they are, put in a black dot
+As part of the check function make another check if the item is in the list but not in the right spot, if it is, put in a white dot
+
+
+
+
+https://www.tutorialspoint.com/python-get-a-list-as-input-from-user
+simple strategy
+maak een loop over alle codes
+check als de feedback mogelijk is tussen alle possible codes
+return de nieuwe mogelijke codes
+
+
+worstcase strategy:
+als je een code raad, hoeveel geven dit antwoord
+bvb AABB geeft max 256
+je loopt eerst door alle vragen heen, (all possible codes)
+voor elke vraag kijk je naar elke mogelijke code sla op hoevaak je elke feedback krijgt
+binnen de vraag onthoudt de worst cases
+binnen een vraag kijk naar het hoogste getal binnen de feedback, dat is de worst worst case, sla alle worst case op, en kies de beste uit de worst case scenarios
+
+
+
