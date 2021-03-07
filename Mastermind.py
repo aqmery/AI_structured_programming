@@ -29,8 +29,6 @@ def codegen():
 def blackCheck(code, guesslst):
     """checks if there are any guesses in the right place (making them black pins)
      and also calls the check for the white pins"""
-    #print(f"master code : {code}")
-    #print(f"the guess for the master code: {guesslst}")
     mastercopy = code.copy()
     black_dots = 0
     for i in range(0, len(guesslst)):
@@ -112,14 +110,16 @@ def computergameloop_worstcase():
         feedback = blackCheck(code, guess)
         print(f"guess is : {guess}")
         print(f"feedback is : {feedback}")
-        print(f" len all codes: {len(all_codes)}")
         all_codes = simple_strategy(all_codes, feedback, guess)
+        print(f" len all codes: {len(all_codes)}\n")
         if guess == code:
             print("You won!!")
             exit()
 
 
 def worstcase_strategy(all_codes):
+    """the worst case strategy finds out what the move is that gives the best worstcase scenario,
+    it also refrences the old moves the player/AI has made to choose the best next move"""
     possibilities = all_codes.copy()
     feedbackdict = {}
     worstcasedict = {}
@@ -146,22 +146,12 @@ def computergameloop_own():
         feedback = blackCheck(code, guess)
         print(f"guess is : {guess}")
         print(feedback)
-        all_codes = own_strategy(all_codes, feedback, guess)
+        all_codes = simple_strategy(all_codes, feedback, guess)
         print(len(all_codes))
         if guess == code:
             print("You won!!")
             exit()
 
 
-def own_strategy(all_codes, feedback, guess):
-    possible_codes = []
-    for i in all_codes:
-        if feedback == blackCheck(guess, i):
-            possible_codes.append(i)
-    return possible_codes
 
-
-
-
-
-computergameloop_own()
+computergameloop_worstcase()
