@@ -64,7 +64,7 @@ def gameloop():
             print(f"you have {AMOUNT_OF_TRIES - tries} tries left \n")
 
 
-def computergameloop_Simple():
+def computergameloop_simple():
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
@@ -87,7 +87,7 @@ def simple_strategy(all_codes, feedback, guess):
     return possible_codes
 
 
-def computergameloop_Worstcase():
+def computergameloop_worstcase():
     all_codes = codegen()
     code = masterCode(COLORLST)
     for i in range(AMOUNT_OF_TRIES):
@@ -120,10 +120,39 @@ def worstcase_strategy(all_codes):
     return list(bestworstcase)
 
 
+def computergameloop_own():
+    all_codes = codegen()
+    code = masterCode(COLORLST)
+    for i in range(AMOUNT_OF_TRIES):
+        guess = random.choice(all_codes)
+        feedback = blackCheck(code, guess)
+        print(f"guess is : {guess}")
+        print(feedback)
+        all_codes = own_strategy(all_codes, feedback, guess)
+        print(len(all_codes))
+        if guess == code:
+            print("You won!!")
+            exit()
+
+def own_strategy(all_codes, feedback, guess):
+    possible_codes = []
+
+    return possible_codes
+
+
+
+
+
+
+
+
+
+
+
 def codegen():
     """generates a list of possible codes from the existing colors"""
     generatedCodes = [list(i) for i in list(itertools.product((COLORLST), repeat=AMOUNT_TO_GUESS))]
     return(generatedCodes)
 
 
-computergameloop_Worstcase()
+computergameloop_worstcase()
